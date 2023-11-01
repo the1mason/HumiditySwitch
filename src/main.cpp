@@ -16,6 +16,15 @@ const int RGB_LED_B = 13;
 
 ESP8266WebServer server(80);
 
+enum WifiState
+{
+  DISCONNECTED,
+  CONNECTING,
+  CONNECTED
+};
+
+WifiState wifiState = DISCONNECTED;
+
 void setup()
 {
   Serial.begin(115200);

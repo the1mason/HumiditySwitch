@@ -1,17 +1,15 @@
 #ifndef INDICATOR_H
 #define INDICATOR_H
 
-void override(bool mode);
+void indicatorOverrideMode(bool mode);
 
-void error();
+void indicateError();
 
-void criticalError();
+void indicateCriticalError();
 
-void on();
+void indicateOn();
 
-void off();
-
-void timer();
+void indicateOff();
 
 void initIndicator(int red_pin, int green_pin, int blue_pin);
 

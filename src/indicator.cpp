@@ -22,7 +22,6 @@ void initIndicator(int red_pin, int green_pin, int blue_pin)
 {
     initRgbLed(red_pin, green_pin, blue_pin);
     timer = timer_create_default();
-    bool timerCallback(void*);
     timer.every(500, timerCallback);
 }
 
@@ -38,7 +37,6 @@ void indicatorOverrideMode(bool mode)
 
 bool timerCallback(void* argument)
 {
-    void setBlinkingLed(int, int, int);
     switch (indicatorState)
     {
     case ON:
@@ -48,10 +46,10 @@ bool timerCallback(void* argument)
         setBlinkingLed(0, 0, 0);
         break;
     case ERROR:
-        setRgbLed(255, 0, 0);
+        setRgbLed(255, 128, 0);
         break;
     case CRITICAL_ERROR:
-        setBlinkingLed(255, 0, 0);
+        setRgbLed(255, 0, 0);
         break;
     default:
         break;
@@ -63,7 +61,7 @@ void setBlinkingLed(int red, int green, int blue)
 {
     if(overrideLedFlip && overrideMode)
     {
-        setRgbLed(0, 0, 255);
+        setRgbLed(0, 255, 255);
     }
     else
     {

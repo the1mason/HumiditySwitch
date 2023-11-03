@@ -2,12 +2,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <Wire.h>
+#include <Button2.h>
 #include "api/handlers.h"
 #include "indicator.h"
 #include "sensor.h"
 
-const char *WIFI_SSID = "8HYeW6wfv1kPh8eTTw";
-const char *WIFI_PASSWORD = "SzU9Ktnd4rQnmC8Uzk";
+const char *WIFI_SSID = "";
+const char *WIFI_PASSWORD = "";
 
 const int AHT10_SDA = 4;
 const int AHT10_SCL = 5;
@@ -18,8 +19,6 @@ const int RGB_LED_R = 14;
 const int RGB_LED_G = 12;
 const int RGB_LED_B = 13;
 
-ESP8266WebServer server(80);
-
 enum WifiState
 {
   DISCONNECTED,
@@ -27,6 +26,8 @@ enum WifiState
   CONNECTED
 };
 
+Button2 modeOverrideButton;
+ESP8266WebServer server(80);
 WifiState wifiState = DISCONNECTED;
 
 void setup()
@@ -37,18 +38,18 @@ void setup()
 
   initIndicator(RGB_LED_R, RGB_LED_G, RGB_LED_B);
   initSensor();
+
+  void modeOverrideCallback(Button2&);
+  modeOverrideButton.begin(BUTTON_PIN, INPUT_PULLUP);
+  modeOverrideButton.setClickHandler(modeOverrideCallback);
+
   initHandlers(&server);
-
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  void btnCallback();
-  attachInterrupt(BUTTON_PIN, btnCallback, RISING);
-
   server.begin();
 }
 
-
 void loop()
 {
+  modeOverrideButton.loop();
   bool connectWifi();
   if (!connectWifi())
   {
@@ -60,8 +61,7 @@ void loop()
   updateSensor();
 }
 
-
-void ICACHE_RAM_ATTR btnCallback()
+void modeOverrideCallback(Button2& btn)
 {
   flipIndicatorOverrideMode();
 }

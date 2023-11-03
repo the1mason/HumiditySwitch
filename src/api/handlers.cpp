@@ -2,7 +2,7 @@
 #include <ESP8266WebServer.h>
 #include "api/handlers.h"
 #include "indicator.h"
-#include "hardware/aht10.h"
+#include "sensor.h"
 
 ESP8266WebServer *serverPtr = NULL;
 bool _overrideMode = false;
@@ -14,7 +14,7 @@ void initHandlers(ESP8266WebServer *server)
   serverPtr->on("/", handleIndex);
   serverPtr->on("/indicate", handleIndicator);
   serverPtr->on("/override", handleIndicatorOverride);
-  serverPtr->on("/hardware/aht10", handleAht);
+  serverPtr->on("/sensor", handleSensor);
   serverPtr->onNotFound(handleNotFound);
 }
 
@@ -70,10 +70,9 @@ void handleMessage(String message)
   serverPtr->send(200, "application/json", response);
 }
 
-void handleAht()
+void handleSensor()
 {
-  readAht10();
-  String message = String(aht10Humidity) + "%," + String(aht10Temperature) + "C";
+  String message = String(sensorHumidity) + "%," + String(sensorTemperature) + "C";
   handleMessage(message);
 }
 

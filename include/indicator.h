@@ -3,6 +3,8 @@
 
 void indicatorOverrideMode(bool mode);
 
+void flipIndicatorOverrideMode();
+
 void indicateError();
 
 void indicateCriticalError();
@@ -17,6 +19,6 @@ void setBlinkingLed(int red, int green, int blue);
 
 void updateIndicator();
 
-bool timerCallback(void* argument);
+bool indicatorTimerCallback(void* argument);
 
 #endif // INDICATOR_H

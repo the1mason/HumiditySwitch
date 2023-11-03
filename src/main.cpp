@@ -4,13 +4,15 @@
 #include <Wire.h>
 #include "api/handlers.h"
 #include "indicator.h"
-#include "hardware/aht10.h"
+#include "sensor.h"
 
 const char *WIFI_SSID = "8HYeW6wfv1kPh8eTTw";
 const char *WIFI_PASSWORD = "SzU9Ktnd4rQnmC8Uzk";
 
 const int AHT10_SDA = 4;
 const int AHT10_SCL = 5;
+
+const int BUTTON_PIN = 2;
 
 const int RGB_LED_R = 14;
 const int RGB_LED_G = 12;
@@ -34,10 +36,16 @@ void setup()
     continue;
 
   initIndicator(RGB_LED_R, RGB_LED_G, RGB_LED_B);
-  initAht10();
+  initSensor();
   initHandlers(&server);
+
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  void btnCallback();
+  attachInterrupt(BUTTON_PIN, btnCallback, RISING);
+
   server.begin();
 }
+
 
 void loop()
 {
@@ -49,6 +57,13 @@ void loop()
 
   server.handleClient();
   updateIndicator();
+  updateSensor();
+}
+
+
+void ICACHE_RAM_ATTR btnCallback()
+{
+  flipIndicatorOverrideMode();
 }
 
 bool connectWifi()

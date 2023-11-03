@@ -1,7 +1,7 @@
 #include <Arduino.h>
+#include <arduino-timer.h>
 #include "indicator.h"
 #include "hardware/rgb_led.h"
-#include <arduino-timer.h>
 
 bool overrideMode = false;
 bool overrideLedFlip = false;
@@ -22,7 +22,7 @@ void initIndicator(int red_pin, int green_pin, int blue_pin)
 {
     initRgbLed(red_pin, green_pin, blue_pin);
     timer = timer_create_default();
-    timer.every(500, timerCallback);
+    timer.every(500, indicatorTimerCallback);
 }
 
 void updateIndicator()
@@ -35,7 +35,12 @@ void indicatorOverrideMode(bool mode)
     overrideMode = mode;
 }
 
-bool timerCallback(void* argument)
+void flipIndicatorOverrideMode()
+{
+    indicatorOverrideMode(!overrideMode);
+}
+
+bool indicatorTimerCallback(void* argument)
 {
     switch (indicatorState)
     {
@@ -46,7 +51,7 @@ bool timerCallback(void* argument)
         setBlinkingLed(0, 0, 0);
         break;
     case ERROR:
-        setRgbLed(255, 128, 0);
+        setRgbLed(255, 64, 0);
         break;
     case CRITICAL_ERROR:
         setRgbLed(255, 0, 0);
@@ -73,23 +78,23 @@ void setBlinkingLed(int red, int green, int blue)
 void indicateError()
 {
     indicatorState = ERROR;
-    timerCallback(nullptr);
+    indicatorTimerCallback(nullptr);
 }
 
 void indicateCriticalError()
 {
     indicatorState = CRITICAL_ERROR;
-    timerCallback(nullptr);
+    indicatorTimerCallback(nullptr);
 }
 
 void indicateOn()
 {
     indicatorState = ON;
-    timerCallback(nullptr);
+    indicatorTimerCallback(nullptr);
 }
 
 void indicateOff()
 {
     indicatorState = OFF;
-    timerCallback(nullptr);
+    indicatorTimerCallback(nullptr);
 }

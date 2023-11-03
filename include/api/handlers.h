@@ -9,7 +9,7 @@ void handleIndicator();
 void handleIndicatorOverride();
 void handleNotFound();
 void handleBadRequest(String message);
-void handleAht();
+void handleSensor();
 
 
 #endif // HANDLERS_H

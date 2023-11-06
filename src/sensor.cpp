@@ -22,7 +22,7 @@ void initSensor()
     Serial.printf_P("AHT10 initialized!");
 }
 
-void updateSensor()
+void loopSensor()
 {
     sensorTimer.tick();
 }

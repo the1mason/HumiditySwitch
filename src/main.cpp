@@ -1,10 +1,12 @@
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <EEPROM.h>
 #include <Wire.h>
 #include <Button2.h>
 #include "api/handlers.h"
 #include "indicator.h"
+#include "switch.h"
 #include "sensor.h"
 
 const char *WIFI_SSID = "";
@@ -14,6 +16,13 @@ const int AHT10_SDA = 4;
 const int AHT10_SCL = 5;
 
 const int BUTTON_PIN = 2;
+
+const int RELAY_PIN = 0;
+const int SWITCH_UPDATE_TIME = 10000;
+
+// TODO: Move to EEPROM
+const float SWITCH_HUMIDITY_MIN_THRESHOLD = 40.0;
+const float SWITCH_HUMIDITY_MAX_THRESHOLD = 55.0;
 
 const int RGB_LED_R = 14;
 const int RGB_LED_G = 12;
@@ -38,6 +47,7 @@ void setup()
 
   initIndicator(RGB_LED_R, RGB_LED_G, RGB_LED_B);
   initSensor();
+  initSwitch(RELAY_PIN, SWITCH_UPDATE_TIME, SWITCH_HUMIDITY_MIN_THRESHOLD, SWITCH_HUMIDITY_MAX_THRESHOLD);
 
   void modeOverrideCallback(Button2&);
   modeOverrideButton.begin(BUTTON_PIN, INPUT_PULLUP);
@@ -50,6 +60,10 @@ void setup()
 void loop()
 {
   modeOverrideButton.loop();
+  loopIndicator();
+  loopSensor();
+  loopSwitch();
+
   bool connectWifi();
   if (!connectWifi())
   {
@@ -57,8 +71,6 @@ void loop()
   }
 
   server.handleClient();
-  updateIndicator();
-  updateSensor();
 }
 
 void modeOverrideCallback(Button2& btn)

@@ -6,7 +6,7 @@ extern float sensorHumidity;
 
 void initSensor();
 
-void updateSensor();
+void loopSensor();
 
 void readSensor();
 

@@ -19,6 +19,8 @@ void setBlinkingLed(int red, int green, int blue);
 
 void updateIndicator();
 
+void loopIndicator();
+
 bool indicatorTimerCallback(void* argument);
 
 #endif // INDICATOR_H

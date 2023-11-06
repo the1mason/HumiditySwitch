@@ -25,22 +25,11 @@ void initIndicator(int red_pin, int green_pin, int blue_pin)
     timer.every(500, indicatorTimerCallback);
 }
 
-void updateIndicator()
-{
+void loopIndicator() {
     timer.tick();
 }
 
-void indicatorOverrideMode(bool mode)
-{
-    overrideMode = mode;
-}
-
-void flipIndicatorOverrideMode()
-{
-    indicatorOverrideMode(!overrideMode);
-}
-
-bool indicatorTimerCallback(void* argument)
+void updateIndicator()
 {
     switch (indicatorState)
     {
@@ -59,8 +48,24 @@ bool indicatorTimerCallback(void* argument)
     default:
         break;
     }
+}
+
+void indicatorOverrideMode(bool mode)
+{
+    overrideMode = mode;
+}
+
+void flipIndicatorOverrideMode()
+{
+    indicatorOverrideMode(!overrideMode);
+}
+
+bool indicatorTimerCallback(void* argument)
+{
+    updateIndicator();
     return true;
 }
+
 
 void setBlinkingLed(int red, int green, int blue)
 {
@@ -75,26 +80,30 @@ void setBlinkingLed(int red, int green, int blue)
     overrideLedFlip = !overrideLedFlip;
 }
 
+#pragma region Update indicator
+
 void indicateError()
 {
     indicatorState = ERROR;
-    indicatorTimerCallback(nullptr);
+    updateIndicator();
 }
 
 void indicateCriticalError()
 {
     indicatorState = CRITICAL_ERROR;
-    indicatorTimerCallback(nullptr);
+    updateIndicator();
 }
 
 void indicateOn()
 {
     indicatorState = ON;
-    indicatorTimerCallback(nullptr);
+    updateIndicator();
 }
 
 void indicateOff()
 {
     indicatorState = OFF;
-    indicatorTimerCallback(nullptr);
+    updateIndicator();
 }
+
+#pragma endregion

@@ -9,8 +9,8 @@
 #include "switch.h"
 #include "sensor.h"
 
-const char *WIFI_SSID = "dkCEILAjy8mw4wMD";
-const char *WIFI_PASSWORD = "Em7WsqdTECFrWfvB";
+const char *WIFI_SSID = "";
+const char *WIFI_PASSWORD = "";
 
 const int AHT10_SDA = 4;
 const int AHT10_SCL = 5;

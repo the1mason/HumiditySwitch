@@ -12,6 +12,7 @@ void initRgbLed(int red_pin, int green_pin, int blue_pin) {
     pinMode(RED_PIN, OUTPUT);
     pinMode(GREEN_PIN, OUTPUT);
     pinMode(BLUE_PIN, OUTPUT);
+    Serial.println("RGB LED initialized");
 }
 
 void setRgbLed(int red, int green, int blue) {

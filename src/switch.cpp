@@ -18,6 +18,7 @@ void initSwitch(int relayPin, int timerInterval, int minHumidity, int maxHumidit
     switchMinHumidity = minHumidity;
     switchMaxHumidity = maxHumidity;
     switchTimer.every(timerInterval, switchTimerCallback);
+    Serial.println("Switch initialized");
 }
 
 void loopSwitch()

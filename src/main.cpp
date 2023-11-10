@@ -21,7 +21,7 @@ const int RELAY_PIN = 0;
 const int SWITCH_UPDATE_TIME = 10000;
 
 // TODO: Move to EEPROM
-const float SWITCH_HUMIDITY_MIN_THRESHOLD = 40.0;
+const float SWITCH_HUMIDITY_MIN_THRESHOLD = 45.0;
 const float SWITCH_HUMIDITY_MAX_THRESHOLD = 55.0;
 
 const int RGB_LED_R = 14;
@@ -49,9 +49,13 @@ void setup()
   initSensor();
   initSwitch(RELAY_PIN, SWITCH_UPDATE_TIME, SWITCH_HUMIDITY_MIN_THRESHOLD, SWITCH_HUMIDITY_MAX_THRESHOLD);
 
-  void modeOverrideCallback(Button2&);
+  void modeOverrideForceOnCallback(Button2&);
+  void modeOverrideForceOffCallback(Button2&);
+  void modeOverrideClearCallback(Button2&);
   modeOverrideButton.begin(BUTTON_PIN, INPUT_PULLUP);
-  modeOverrideButton.setClickHandler(modeOverrideCallback);
+  modeOverrideButton.setClickHandler(modeOverrideForceOnCallback);
+  modeOverrideButton.setDoubleClickHandler(modeOverrideForceOffCallback);
+  modeOverrideButton.setLongClickHandler(modeOverrideClearCallback);
 
   initHandlers(&server);
   server.begin();
@@ -73,9 +77,19 @@ void loop()
   server.handleClient();
 }
 
-void modeOverrideCallback(Button2& btn)
+void modeOverrideForceOnCallback(Button2& btn)
 {
-  flipIndicatorOverrideMode();
+  overrideSwitch(1);
+}
+
+void modeOverrideForceOffCallback(Button2& btn)
+{
+  overrideSwitch(2);
+}
+
+void modeOverrideClearCallback(Button2& btn)
+{
+  overrideSwitch(0);
 }
 
 bool connectWifi()

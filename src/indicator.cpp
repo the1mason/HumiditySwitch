@@ -23,9 +23,11 @@ void initIndicator(int red_pin, int green_pin, int blue_pin)
     initRgbLed(red_pin, green_pin, blue_pin);
     timer = timer_create_default();
     timer.every(500, indicatorTimerCallback);
+    Serial.println("Indicator initialized");
 }
 
-void loopIndicator() {
+void loopIndicator()
+{
     timer.tick();
 }
 
@@ -60,16 +62,15 @@ void flipIndicatorOverrideMode()
     indicatorOverrideMode(!overrideMode);
 }
 
-bool indicatorTimerCallback(void* argument)
+bool indicatorTimerCallback(void *argument)
 {
     updateIndicator();
     return true;
 }
 
-
 void setBlinkingLed(int red, int green, int blue)
 {
-    if(overrideLedFlip && overrideMode)
+    if (overrideLedFlip && overrideMode)
     {
         setRgbLed(0, 255, 255);
     }

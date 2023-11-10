@@ -19,7 +19,7 @@ void initSensor()
     }
 
     sensorTimer.every(10000, sensorTimerCallback);
-    Serial.printf_P("AHT10 initialized!");
+    Serial.println("AHT10 initialized");
 }
 
 void loopSensor()

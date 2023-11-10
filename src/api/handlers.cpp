@@ -16,6 +16,7 @@ void initHandlers(ESP8266WebServer *server)
   serverPtr->on("/override", handleIndicatorOverride);
   serverPtr->on("/sensor", handleSensor);
   serverPtr->onNotFound(handleNotFound);
+    Serial.println("Handlers initialized");
 }
 
 void handleIndicatorOverride()

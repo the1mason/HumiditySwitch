@@ -9,8 +9,8 @@
 #include "switch.h"
 #include "sensor.h"
 
-const char *WIFI_SSID = "";
-const char *WIFI_PASSWORD = "";
+const char *WIFI_SSID = "dkCEILAjy8mw4wMD";
+const char *WIFI_PASSWORD = "Em7WsqdTECFrWfvB";
 
 const int AHT10_SDA = 4;
 const int AHT10_SCL = 5;
@@ -21,8 +21,8 @@ const int RELAY_PIN = 0;
 const int SWITCH_UPDATE_TIME = 10000;
 
 // TODO: Move to EEPROM
-const float SWITCH_HUMIDITY_MIN_THRESHOLD = 45.0;
-const float SWITCH_HUMIDITY_MAX_THRESHOLD = 55.0;
+const float SWITCH_HUMIDITY_MIN_THRESHOLD = 40.0;
+const float SWITCH_HUMIDITY_MAX_THRESHOLD = 60.0;
 
 const int RGB_LED_R = 14;
 const int RGB_LED_G = 12;

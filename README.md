@@ -15,7 +15,7 @@ Response:
 ```json
 {
 "status": 200,
-"overrideState": 0, // 0 - off, 1 - on, 2 - force on, 3 - force off
+"overrideState": 0, // 0 - off, 1 - force on, 2 - force off
 "humidity": 45.31,
 "sensorTemperature": 27.41
 }

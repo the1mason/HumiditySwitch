@@ -10,24 +10,28 @@ Just for fun I added a web API to control it and an indicator LED and a button f
 The device exposes a web API that can be used to control it.  
 There's no authentication for now (I'll add it at some point).  
 
-`/` - Just returns OK  
+`GET /` - Returns info about the device
 Response:
 ```json
 {
-    "status": 200
+"status": 200,
+"overrideState": 0, // 0 - off, 1 - on, 2 - force on, 3 - force off
+"humidity": 45.31,
+"sensorTemperature": 27.41
 }
 ```
 
-`/sensor` - Returns the current humidity and temperature  
+`GET /sensor` - Returns the current humidity and temperature  
 Response:
 ```json
 {
-    "status": 200,
-    "message": "45.21%,22.23C"
+"status": 200,
+"humidity": 45.43,
+"sensorTemperature": 27.4
 }
 ```
 
-`/override?state=[0-2]` - Overrides the switch: 0 - reset, 1 - force on, 2 - force off  
+`GET /override?state=[0-2]` - Overrides the switch: 0 - reset, 1 - force on, 2 - force off  
 Response:
 ```json
 {
@@ -38,14 +42,6 @@ Response:
 
 Be warned that the name of the query param (e.g. "state") doesn't matter, but it's position does!  
 `/test?one=1&two=2` is the same as `/test?two=1&two=2`, but not the same as `/test?two=2&one=1`
-
-Q: How does one knows whether it's on or off?  
-A: One doesn't.  
-
-Q: How does one gets current override state?  
-A: One doesn't.  
-
-(I'll do in eventually)
 
 ## Hardware
 

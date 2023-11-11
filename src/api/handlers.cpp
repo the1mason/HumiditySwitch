@@ -16,7 +16,7 @@ void initHandlers(ESP8266WebServer *server)
   serverPtr->on("/override", handleIndicatorOverride);
   serverPtr->on("/sensor", handleSensor);
   serverPtr->onNotFound(handleNotFound);
-    Serial.println("Handlers initialized");
+  Serial.println("Handlers initialized");
 }
 
 void handleIndicatorOverride()
@@ -36,7 +36,11 @@ void handleIndicatorOverride()
 
 void handleIndex()
 {
-  String response = "{\"status\": 200}";
+  String response =
+      "{\"status\": 200, \"overrideState\": " + String(switchOverrideState) +
+      ", \"humidity\": " + String(sensorHumidity) +
+      ", \"sensorTemperature\": " + String(sensorTemperature) + "}";
+
   serverPtr->send(200, "application/json", response);
 }
 
@@ -48,8 +52,10 @@ void handleMessage(String message)
 
 void handleSensor()
 {
-  String message = String(sensorHumidity) + "%," + String(sensorTemperature) + "C";
-  handleMessage(message);
+  String response =
+      "{\"status\": 200, \"humidity\": " + String(sensorHumidity) +
+      ", \"sensorTemperature\": " + String(sensorTemperature) + "}";
+  serverPtr->send(200, "application/json", response);
 }
 
 void handleNotFound()

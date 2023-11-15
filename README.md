@@ -54,7 +54,7 @@ Be warned that the name of the query param (e.g. "state") doesn't matter, but it
 
 ## Wiring
 
-TBD
+![Wiring layout](scheme.png)
 
 ## 3v 5v issues
 
